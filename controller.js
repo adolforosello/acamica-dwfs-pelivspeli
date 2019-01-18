@@ -65,9 +65,48 @@ function getResults(req,res){
 	});
 }	
 
+function getGeneros(req,res){
+	var query = 'select * from genero';
+	database.query(query,function(error,results,fields){
+		if(error){
+			res.status(500).send('Error de consulta a la base de datos',error.message);
+		}
+		res.send(results);
+	});
+}
+
+function getActores(req,res){
+	var query = 'select * from actor';
+	database.query(query,function(error,results,fields){
+		if(error){
+			res.status(500).send('Error de consulta a la base de datos',error.message);
+		}
+		res.send(results);
+	});
+}
+
+function getDirectores(req,res){
+	var query = 'select * from director';
+	database.query(query,function(error,results,fields){
+		if(error){
+			res.status(500).send('Error de consulta a la base de datos',error.message);
+		}
+		res.send(results);
+	});
+}
+
+function addCompetencia(req,res){
+	
+	
+}
+
 module.exports = {
 	listCompetencias : listCompetencias,
 	getOptions : getOptions,
 	addVote : addVote,
-	getResults : getResults
+	getResults : getResults,
+	addCompetencia :addCompetencia,
+	getDirectores : getDirectores,
+	getActores : getActores,
+	getGeneros : getGeneros
 }
