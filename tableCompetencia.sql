@@ -9,3 +9,10 @@ VALUES
 	(2,'Que protagonista actuo mejor?'),
 	(3,'Mejor banda sonora?'),
 	(4,'Que pelicula te divirtio mas?');
+
+alter table competencia add column (
+	genero_id int(11) ,
+	director_id int(11),
+	actor_id int(11) ,
+	deleted boolean not null default 0 
+	);
