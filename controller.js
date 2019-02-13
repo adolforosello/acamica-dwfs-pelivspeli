@@ -2,6 +2,7 @@ database = require('./dbConnect');
 
 function listCompetencias(req,res){
 	var where = ' where 1 = 1 and deleted = 0';
+	
 	if (req.params.id) {
 		var join = '';
 		var select = '';
@@ -20,22 +21,17 @@ function listCompetencias(req,res){
 				join += ' inner join director  on competencia.director_id=director.id ';
 			}
 			var query = 'select competencia.nombre '+select+' from competencia  '+join+where+';';
-			
-
 			database.query(query,function(error,results,field){
 				if(error){
 					res.status(404).send('Hubo un error en la consulta ',error.message);
 				}
-				
 				var resultado = {
-				nombre : results[0].nombre,
-				genero_nombre : results[0].genero_nombre,
-				actor_nombre : results[0].actor_nombre,
-				director_nombre : results[0].director_nombre
+					nombre : results[0].nombre,
+					genero_nombre : results[0].genero_nombre,
+					actor_nombre : results[0].actor_nombre,
+					director_nombre : results[0].director_nombre
 				}
-
 			res.send(resultado);
-			
 			});
 		});
 		
@@ -51,29 +47,20 @@ function listCompetencias(req,res){
 			resultado.push({
 				id : element.id,
 				nombre : element.nombre
-				
 			});
 		})
 		res.send(resultado);
 	})
-
 	}
-	
-	
 }
 
 function getOptions(req,res){
 	var query = 'select nombre from competencia where id ='+req.params.id+';';
-
-	
 	database.query(query,function(error,result,field){
 		if(error){
 			res.status(404).send('Hubo un error en la consulta ', error.message);
 		}
-		
 		var where = 'where rand() ';
-		
-		
 		var query1 ='select * from pelicula '+where+' limit 2;';	
 		database.query(query1,function(error,result1,field){
 			if(error){
@@ -86,16 +73,13 @@ function getOptions(req,res){
 			res.send(respuesta);
 			
 		});
-
 	});
-		
 }
 
 function addVote(req,res){
 
 	var vote = req.body;
 	var movie_id = vote.idPelicula;
-	
 	var query = 'INSERT INTO votos (competencia_id,pelicula_id) values (?,?)';
 	database.query(query,[req.params.idCompetencia,movie_id],function(error,results,fields){
 		if(error){
@@ -111,13 +95,15 @@ function getResults(req,res){
 		if(error){
 			res.status(422).send("Hubo un error en la consulta!",error.message);
 		}
-		var respuesta = {
-			competencia :results[0].nombre,
-			resultados : results
-
+		if (results==0) {
+			res.send(results);		
+		}else{
+			var respuesta = {
+				competencia :results[0].nombre,
+				resultados : results
+			}
+			res.send(respuesta);	
 		}
-		res.send(respuesta);
-		//res.send(respuesta.resultados[1].titulo);
 	});
 }	
 
@@ -216,7 +202,6 @@ function deleteVotes(req,res){
 			}
 			res.status(200).send(results1);
 		});
-		
 	})
 }
 
@@ -232,7 +217,6 @@ function deleteCompetencias(req,res){
 			res.send(results);
 			console.log(query)
 		});
-
 	}); 
 }
 
@@ -249,7 +233,6 @@ function modifCompetencias(req,res){
 			res.send(results);
 			console.log(query)
 		});
-
 	}); 
 }
 module.exports = {

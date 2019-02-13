@@ -175,23 +175,27 @@ function CompetenciasController () {
 		// Se carga el nombre de la competencia en el contenedor del título
 		$("#nombreCompetencia").text(data.competencia);
 		// Se recorren los resultados (data es un array)
-		for (var i = 0; i < data.resultados.length; i++) {
-			// Se selecciona el div que contiene la estructura donde cargar el resultado actual
-			var divResultado = "#puesto"+(i+1);
-			// Se carga el valor de pelicula_id obtenido de la opción actual en el objeto con clase idPelicula que se encuentra dentro del divResultado
-			$(divResultado+" .idPelicula").val((data.resultados)[i].pelicula_id);
-			// Se carga el poster de la película
-			$(divResultado+" .poster").attr("src",(data.resultados)[i].poster);
-			// Se carga el título de la película
-			$(divResultado+" .titulo").text((data.resultados)[i].titulo);
-			// Se carga la cantidad de votor recibidos por la película en esta competencia
-			var votoOVotos = ((data.resultados)[i].votos > 1 ) ? 'VOTOS' : 'VOTO';
-			$(divResultado+" .votos").text((data.resultados)[i].votos + ' ' + votoOVotos);
-  	}
-		for(i; i < 3; i++){
-			var divResultado = "#puesto"+(i+1);
-			$(divResultado).hide();
+
+		if (data.resultados.length>0) {
+			for (var i = 0; i < data.resultados.length; i++) {
+				// Se selecciona el div que contiene la estructura donde cargar el resultado actual
+				var divResultado = "#puesto"+(i+1);
+				// Se carga el valor de pelicula_id obtenido de la opción actual en el objeto con clase idPelicula que se encuentra dentro del divResultado
+				$(divResultado+" .idPelicula").val((data.resultados)[i].pelicula_id);
+				// Se carga el poster de la película
+				$(divResultado+" .poster").attr("src",(data.resultados)[i].poster);
+				// Se carga el título de la película
+				$(divResultado+" .titulo").text((data.resultados)[i].titulo);
+				// Se carga la cantidad de votor recibidos por la película en esta competencia
+				var votoOVotos = ((data.resultados)[i].votos > 1 ) ? 'VOTOS' : 'VOTO';
+				$(divResultado+" .votos").text((data.resultados)[i].votos + ' ' + votoOVotos);
+		  	}
+				for(i; i < 3; i++){
+					var divResultado = "#puesto"+(i+1);
+					$(divResultado).hide();
+				}
 		}
+		
 
 	}
 };
